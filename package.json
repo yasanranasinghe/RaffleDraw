@@ -2,9 +2,15 @@
   "name": "kdu-ball-2026",
   "private": true,
   "version": "1.0.0",
+  "description": "KDU Ball 2026 secure raffle draw application",
+  "author": "yasanranasinghe",
+  "main": "desktop/main.cjs",
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "desktop": "npm run build:desktop && node desktop/launch.cjs",
+    "build:desktop": "tsc -b && vite build --base=./",
+    "package:desktop": "npm run build:desktop && electron-builder --publish never",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "format": "prettier --check .",
@@ -13,10 +19,45 @@
     "typecheck": "tsc -b --pretty false"
   },
   "dependencies": {
-    "@vitejs/plugin-react": "latest",
-    "vite": "latest",
     "react": "latest",
     "react-dom": "latest"
+  },
+  "build": {
+    "appId": "com.yasanranasinghe.kduball2026",
+    "productName": "KDU Ball 2026",
+    "asar": true,
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "files": [
+      "dist/**/*",
+      "desktop/**/*",
+      "build/icon.png",
+      "package.json"
+    ],
+    "mac": {
+      "category": "public.app-category.entertainment",
+      "icon": "build/icon.png",
+      "target": [
+        "dmg",
+        "zip"
+      ]
+    },
+    "win": {
+      "icon": "build/icon.png",
+      "target": [
+        "nsis",
+        "zip"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    },
+    "artifactName": "KDU-Ball-2026-${version}-${os}-${arch}.${ext}"
   },
   "devDependencies": {
     "@eslint/js": "latest",
@@ -24,6 +65,9 @@
     "@testing-library/react": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
+    "@vitejs/plugin-react": "latest",
+    "electron": "^44.0.0",
+    "electron-builder": "^26.15.3",
     "eslint": "latest",
     "eslint-plugin-react-hooks": "latest",
     "eslint-plugin-react-refresh": "latest",
@@ -32,6 +76,7 @@
     "prettier": "latest",
     "typescript": "latest",
     "typescript-eslint": "latest",
+    "vite": "latest",
     "vitest": "latest"
   }
 }
